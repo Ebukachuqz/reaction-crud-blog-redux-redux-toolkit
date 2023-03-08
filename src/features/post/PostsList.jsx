@@ -1,5 +1,5 @@
-import ReactionButtons from "components/ReactionButtons";
-import TimeAgo from "components/TimeAgo";
+import ReactionButtons from "features/post/components/ReactionButtons";
+import TimeAgo from "features/post/components/TimeAgo";
 import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import PostAuthor from "./PostAuthor";
@@ -16,10 +16,6 @@ const PostsList = () => {
   const posts = useSelector(selectAllPosts);
   const postsStatus = useSelector(selectPostsStatus);
   const postsError = useSelector(selectPostsError);
-
-  useEffect(() => {
-    dispatch(fetchPosts());
-  }, []);
 
   let content;
   if (postsStatus === "loading") {
