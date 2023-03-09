@@ -1,19 +1,14 @@
-import ReactionButtons from "features/post/components/ReactionButtons";
-import TimeAgo from "features/post/components/TimeAgo";
-import React, { useEffect } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import PostAuthor from "./PostAuthor";
-import PostExerpt from "./PostExerpt";
+import React from "react";
+import { useSelector } from "react-redux";
+import PostExcerpt from "./PostExcerpt";
 import {
-  fetchPosts,
-  selectAllPosts,
   selectPostsError,
+  selectPostsIds,
   selectPostsStatus,
 } from "./postSlice";
 
 const PostsList = () => {
-  const dispatch = useDispatch();
-  const posts = useSelector(selectAllPosts);
+  const orderedPosts = useSelector(selectPostsIds);
   const postsStatus = useSelector(selectPostsStatus);
   const postsError = useSelector(selectPostsError);
 
@@ -21,13 +16,7 @@ const PostsList = () => {
   if (postsStatus === "loading") {
     content = <p>Loading...</p>;
   } else if (postsStatus === "succeeded") {
-    const orderedPosts = posts
-      .slice()
-      .sort((a, b) => b.date.localeCompare(a.date));
-
-    content = orderedPosts.map((post) => (
-      <PostExerpt key={post.id} post={post} />
-    ));
+    content = orderedPosts.map((id) => <PostExcerpt key={id} postId={id} />);
   } else if (postsStatus === "failed") {
     content = <p>{postsError}</p>;
   }

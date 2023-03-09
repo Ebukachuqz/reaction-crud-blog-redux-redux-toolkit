@@ -3,8 +3,11 @@ import TimeAgo from "features/post/components/TimeAgo";
 import React from "react";
 import PostAuthor from "./PostAuthor";
 import { Link } from "react-router-dom";
+import { useSelector } from "react-redux";
+import { selectPostById } from "./postSlice";
 
-const PostExerpt = ({ post }) => {
+const PostExcerpt = ({ postId }) => {
+  const post = useSelector((state) => selectPostById(state, postId));
   return (
     <article>
       <h2>{post.title}</h2>
@@ -19,4 +22,4 @@ const PostExerpt = ({ post }) => {
   );
 };
 
-export default PostExerpt;
+export default PostExcerpt;
