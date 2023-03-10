@@ -6,10 +6,10 @@ import { store } from "./app/store";
 import { Provider } from "react-redux";
 import { fetchUsers } from "features/users/usersSlice";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
-import { fetchPosts } from "features/post/postSlice";
+import { extendedApiSlice } from "features/post/postSlice";
 
 store.dispatch(fetchUsers());
-store.dispatch(fetchPosts());
+store.dispatch(extendedApiSlice.endpoints.getAllPosts.initiate());
 
 ReactDOM.render(
   <React.StrictMode>

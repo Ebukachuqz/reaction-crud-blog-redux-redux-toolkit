@@ -1,12 +1,18 @@
 import { selectAllUsers } from "features/users/usersSlice";
 import { useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import { useSelector } from "react-redux";
 import { useParams, useNavigate } from "react-router-dom";
-import { deletePost, selectPostById, updatePost } from "../postSlice";
+import {
+  selectPostById,
+  useDeletePostMutation,
+  useUpdatePostMutation,
+} from "../postSlice";
 
 const EditPostForm = () => {
   const { postId } = useParams();
   const navigate = useNavigate();
+  const [updatePost, { isLoading }] = useUpdatePostMutation();
+  const [deletePost] = useDeletePostMutation();
 
   const post = useSelector((state) => selectPostById(state, Number(postId)));
   const users = useSelector(selectAllUsers);
@@ -15,8 +21,6 @@ const EditPostForm = () => {
   const [content, setContent] = useState(post?.body);
   const [userId, setUserId] = useState(post?.userId);
   const [requestStatus, setRequestStatus] = useState("idle");
-
-  const dispatch = useDispatch();
 
   if (!post) {
     return (
@@ -33,19 +37,16 @@ const EditPostForm = () => {
   const canSave =
     [title, content, userId].every(Boolean) && requestStatus === "idle";
 
-  const onSavePostClicked = () => {
+  const onSavePostClicked = async () => {
     if (canSave) {
       try {
-        setRequestStatus("pending");
-        dispatch(
-          updatePost({
-            id: post.id,
-            title,
-            body: content,
-            userId,
-            reactions: post.reactions,
-          })
-        ).unwrap();
+        await updatePost({
+          id: post.id,
+          title,
+          body: content,
+          userId,
+          reactions: post.reactions,
+        }).unwrap();
 
         setTitle("");
         setContent("");
@@ -53,8 +54,6 @@ const EditPostForm = () => {
         navigate(`/post/${postId}`);
       } catch (err) {
         console.error("Failed to save the post", err);
-      } finally {
-        setRequestStatus("idle");
       }
     }
   };
@@ -65,11 +64,9 @@ const EditPostForm = () => {
     </option>
   ));
 
-  const onDeletePostClicked = () => {
+  const onDeletePostClicked = async () => {
     try {
-      setRequestStatus("pending");
-      dispatch(deletePost({ id: post.id })).unwrap();
-
+      await deletePost({ id: post.id }).unwrap();
       setTitle("");
       setContent("");
       setUserId("");
