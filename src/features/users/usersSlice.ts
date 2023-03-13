@@ -3,7 +3,7 @@ import axios from "axios";
 
 const USERS_URL = "https://jsonplaceholder.typicode.com/users";
 
-const initialState = [];
+const initialState: any = [];
 
 export const fetchUsers = createAsyncThunk("users/fetchUsers", async () => {
   const response = await axios.get(USERS_URL);
@@ -21,8 +21,8 @@ const usersSlice = createSlice({
   },
 });
 
-export const selectAllUsers = (state) => state.users;
-export const selectUserById = (state, userId) =>
-  state.users.find((user) => user.id === userId);
+export const selectAllUsers = (state: any) => state.users;
+export const selectUserById = (state: any, userId: any) =>
+  state.users.find((user: any) => user.id === userId);
 
 export default usersSlice.reducer;

@@ -12,6 +12,7 @@ import { apiSlice } from "features/api/apiSlice";
 const POSTS_URL = "https://jsonplaceholder.typicode.com/posts";
 
 const postAdapter = createEntityAdapter({
+  // @ts-expect-error TS(2571): Object is of type 'unknown'.
   sortComparer: (a, b) => b.date.localeCompare(a.date),
 });
 
@@ -23,7 +24,8 @@ export const extendedApiSlice = apiSlice.injectEndpoints({
       query: () => "/posts",
       transformResponse: (res) => {
         let minute = 1;
-        const posts = res.map((post) => {
+        // @ts-expect-error TS(2571): Object is of type 'unknown'.
+        const posts = res.map((post: any) => {
           if (!post?.date)
             post.date = sub(new Date(), { minutes: minute++ }).toISOString();
           if (!post?.reactions)
@@ -38,8 +40,10 @@ export const extendedApiSlice = apiSlice.injectEndpoints({
         });
         return postAdapter.setAll(initialState, posts);
       },
+      // @ts-expect-error TS(2322): Type '(result: EntityState<unknown> | undefined, e... Remove this comment to see the full error message
       providesTags: (result, error, arg) => [
         { type: "Post", id: "LIST" },
+        // @ts-expect-error TS(2532): Object is possibly 'undefined'.
         ...result.ids.map((id) => ({ type: "Post", id })),
       ],
     }),
@@ -47,7 +51,8 @@ export const extendedApiSlice = apiSlice.injectEndpoints({
       query: (id) => `/posts?userId=${id}`,
       transformResponse: (response) => {
         let minute = 1;
-        const posts = response.map((post) => {
+        // @ts-expect-error TS(2571): Object is of type 'unknown'.
+        const posts = response.map((post: any) => {
           if (!post?.date)
             post.date = sub(new Date(), { minutes: minute++ }).toISOString();
           if (!post?.reactions)
@@ -140,6 +145,7 @@ export const {
 } = extendedApiSlice;
 
 // Returns the result object of the getAllPosts query
+// @ts-expect-error TS(2554): Expected 1 arguments, but got 0.
 const selectGetAllPostsResult = extendedApiSlice.endpoints.getAllPosts.select();
 
 // memoized selector for all posts data
@@ -153,5 +159,6 @@ export const {
   selectById: selectPostById,
   selectIds: selectPostsIds,
 } = postAdapter.getSelectors(
+  // @ts-expect-error TS(2345): Argument of type 'unknown' is not assignable to pa... Remove this comment to see the full error message
   (state) => selectAllPostsData(state) ?? initialState
 );

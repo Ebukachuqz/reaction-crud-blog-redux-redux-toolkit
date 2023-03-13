@@ -17,8 +17,11 @@ const EditPostForm = () => {
   const post = useSelector((state) => selectPostById(state, Number(postId)));
   const users = useSelector(selectAllUsers);
 
+  // @ts-expect-error TS(2571): Object is of type 'unknown'.
   const [title, setTitle] = useState(post?.title);
+  // @ts-expect-error TS(2571): Object is of type 'unknown'.
   const [content, setContent] = useState(post?.body);
+  // @ts-expect-error TS(2571): Object is of type 'unknown'.
   const [userId, setUserId] = useState(post?.userId);
   const [requestStatus, setRequestStatus] = useState("idle");
 
@@ -30,9 +33,9 @@ const EditPostForm = () => {
     );
   }
 
-  const onTitleChanged = (e) => setTitle(e.target.value);
-  const onContentChanged = (e) => setContent(e.target.value);
-  const onAuthorChanged = (e) => setUserId(Number(e.target.value));
+  const onTitleChanged = (e: any) => setTitle(e.target.value);
+  const onContentChanged = (e: any) => setContent(e.target.value);
+  const onAuthorChanged = (e: any) => setUserId(Number(e.target.value));
 
   const canSave =
     [title, content, userId].every(Boolean) && requestStatus === "idle";
@@ -41,10 +44,12 @@ const EditPostForm = () => {
     if (canSave) {
       try {
         await updatePost({
+          // @ts-expect-error TS(2571): Object is of type 'unknown'.
           id: post.id,
           title,
           body: content,
           userId,
+          // @ts-expect-error TS(2571): Object is of type 'unknown'.
           reactions: post.reactions,
         }).unwrap();
 
@@ -58,14 +63,13 @@ const EditPostForm = () => {
     }
   };
 
-  const usersOptions = users.map((user) => (
-    <option key={user.id} value={user.id}>
-      {user.name}
-    </option>
-  ));
+  const usersOptions = users.map((user: any) => <option key={user.id} value={user.id}>
+    {user.name}
+  </option>);
 
   const onDeletePostClicked = async () => {
     try {
+      // @ts-expect-error TS(2571): Object is of type 'unknown'.
       await deletePost({ id: post.id }).unwrap();
       setTitle("");
       setContent("");

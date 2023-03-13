@@ -9,6 +9,7 @@ import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import { extendedApiSlice } from "features/post/postSlice";
 
 store.dispatch(fetchUsers());
+// @ts-expect-error TS(2554): Expected 1-2 arguments, but got 0.
 store.dispatch(extendedApiSlice.endpoints.getAllPosts.initiate());
 
 ReactDOM.render(
@@ -16,6 +17,7 @@ ReactDOM.render(
     <Provider store={store}>
       <Router>
         <Routes>
+          // @ts-expect-error TS(2786): 'App' cannot be used as a JSX component.
           <Route path="/*" element={<App />} />
         </Routes>
       </Router>

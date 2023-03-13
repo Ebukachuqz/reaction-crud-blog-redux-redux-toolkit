@@ -4,6 +4,7 @@ import PostExcerpt from "./PostExcerpt";
 import { selectPostsIds, useGetAllPostsQuery } from "./postSlice";
 
 const PostsList = () => {
+  // @ts-expect-error TS(2554): Expected 1-2 arguments, but got 0.
   const { isError, isLoading, isSuccess, error } = useGetAllPostsQuery();
   const orderedPosts = useSelector(selectPostsIds);
 

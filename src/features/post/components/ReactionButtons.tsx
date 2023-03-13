@@ -8,7 +8,10 @@ const reactionEmoji = {
   coffee: "☕",
 };
 
-const ReactionButtons = ({ reactions, postId }) => {
+const ReactionButtons = ({
+  reactions,
+  postId
+}: any) => {
   const [reactionCount] = useReactionCountMutation();
   const reactionButtons = Object.entries(reactionEmoji).map(([name, emoji]) => {
     return (

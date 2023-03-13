@@ -14,9 +14,9 @@ const AddPostForm = () => {
 
   const users = useSelector(selectAllUsers);
 
-  const onTitleChanged = (e) => setTitle(e.target.value);
-  const onContentChanged = (e) => setContent(e.target.value);
-  const onAuthorChanged = (e) => setUserId(e.target.value);
+  const onTitleChanged = (e: any) => setTitle(e.target.value);
+  const onContentChanged = (e: any) => setContent(e.target.value);
+  const onAuthorChanged = (e: any) => setUserId(e.target.value);
   const canSave = [title, content, userId].every(Boolean) && !isLoading;
 
   const onSavePostClicked = async () => {
@@ -33,11 +33,9 @@ const AddPostForm = () => {
     }
   };
 
-  const usersOptions = users.map((user) => (
-    <option key={user.id} value={user.id}>
-      {user.name}
-    </option>
-  ));
+  const usersOptions = users.map((user: any) => <option key={user.id} value={user.id}>
+    {user.name}
+  </option>);
 
   return (
     <section>
