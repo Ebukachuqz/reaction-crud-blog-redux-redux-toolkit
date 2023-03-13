@@ -22,19 +22,13 @@ const SinglePostPage = () => {
 
   return (
     <article>
-      // @ts-expect-error TS(2571): Object is of type 'unknown'.
       <h2>{post.title}</h2>
-      // @ts-expect-error TS(2571): Object is of type 'unknown'.
       <p>{post.body}</p>
       <p className="postCredit">
-        // @ts-expect-error TS(2571): Object is of type 'unknown'.
         <Link to={`/post/edit/${post.id}`}>Edit Post</Link>
-        // @ts-expect-error TS(2571): Object is of type 'unknown'.
         <PostAuthor userId={post.userId} />
-        // @ts-expect-error TS(2571): Object is of type 'unknown'.
         <TimeAgo timestamp={post.date} />
       </p>
-      // @ts-expect-error TS(2571): Object is of type 'unknown'.
       <ReactionButtons reactions={post.reactions} postId={post.id} />
     </article>
   );
