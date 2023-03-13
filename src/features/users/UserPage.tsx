@@ -25,7 +25,7 @@ const UserPage = () => {
     postTitles = ids.map((id) => (
       <li key={id}>
         // @ts-expect-error TS(2571): Object is of type 'unknown'.
-        <Link to={`/post/${id}`}>{entities[id].title}</Link>
+        <Link to={`/post/${id}`}>{entities[id]?.title}</Link>
       </li>
     ));
   } else if (isError) {

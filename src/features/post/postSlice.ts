@@ -11,8 +11,22 @@ import { apiSlice } from "features/api/apiSlice";
 
 const POSTS_URL = "https://jsonplaceholder.typicode.com/posts";
 
-const postAdapter = createEntityAdapter({
-  // @ts-expect-error TS(2571): Object is of type 'unknown'.
+interface Post {
+  userId: number;
+  id: number;
+  title: string;
+  body: string;
+  date: string;
+  reactions: {
+    thumbsUp: number;
+    wow: number;
+    heart: number;
+    rocket: number;
+    coffee: number;
+  };
+}
+
+const postAdapter = createEntityAdapter<Post>({
   sortComparer: (a, b) => b.date.localeCompare(a.date),
 });
 
@@ -161,4 +175,4 @@ export const {
 } = postAdapter.getSelectors(
   // @ts-expect-error TS(2345): Argument of type 'unknown' is not assignable to pa... Remove this comment to see the full error message
   (state) => selectAllPostsData(state) ?? initialState
-);
+)!;

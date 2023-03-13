@@ -6,10 +6,8 @@ import { Link } from "react-router-dom";
 import { useSelector } from "react-redux";
 import { selectPostById } from "./postSlice";
 
-const PostExcerpt = ({
-  postId
-}: any) => {
-  const post = useSelector((state) => selectPostById(state, postId));
+const PostExcerpt = ({ postId }: any) => {
+  const post = useSelector((state) => selectPostById(state, postId))!;
   return (
     <article>
       // @ts-expect-error TS(2571): Object is of type 'unknown'.
